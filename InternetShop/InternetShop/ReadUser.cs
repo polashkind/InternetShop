@@ -4,7 +4,7 @@ using Npgsql;
 
 namespace InternetShop
 {
-    class DataReader
+    public class DataReader
     {
         public static User ReadUser(NpgsqlDataReader reader)
         {
@@ -14,9 +14,9 @@ namespace InternetShop
 
             User user = new User
             {
-                actor_id = actor_id.Value,
-                first_name = first_name,
-                last_name = last_name
+                ActorId = actor_id.Value,
+                FirstName = first_name,
+                LastName = last_name
             };
             return user;
         }

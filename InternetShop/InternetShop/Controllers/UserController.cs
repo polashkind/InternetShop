@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
-using System.Collections.Generic;
-using InternetShop.Controllers;
 
 namespace InternetShop.Controllers
 {
@@ -18,21 +14,19 @@ namespace InternetShop.Controllers
             using var connection = new NpgsqlConnection(cs);
             connection.Open();
 
-            string sql = "SELECT * FROM actor";
+            var sql = "SELECT * FROM actor";
             using var cmd = new NpgsqlCommand(sql, connection);
 
             using NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
-            List<User> UserList = new List<User>();
+            var userList = new List<User>();
 
             while (await reader.ReadAsync())
             {
-                //Console.WriteLine("{0} {1} {2}", rdr.GetInt16(0), rdr.GetString(1),
-                //        rdr.GetString(2));
                 User user = DataReader.ReadUser(reader);
-                UserList.Add(user);
+                userList.Add(user);
             }
-            Console.WriteLine("UserList " + UserList.Count());
-            return Ok(UserList);
+            Console.WriteLine("UserList " + userList.Count());
+            return Ok(userList);
         }
     }
 }
