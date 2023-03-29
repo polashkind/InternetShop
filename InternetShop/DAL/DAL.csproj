@@ -6,4 +6,29 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Context\" />
+      <None Remove="Entities\" />
+      <None Remove="Repositories\" />
+      <None Remove="DI\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Context\" />
+      <Folder Include="Entities\" />
+      <Folder Include="Repositories\" />
+      <Folder Include="DI\" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
 </Project>
