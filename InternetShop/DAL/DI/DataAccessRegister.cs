@@ -18,8 +18,6 @@ namespace DAL.DI
 				context.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 			});
 		}
-
-		
 	}
 }
 
