@@ -11,12 +11,14 @@
       <None Remove="Entities\" />
       <None Remove="Repositories\" />
       <None Remove="DI\" />
+      <None Remove="Interfaces\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Context\" />
       <Folder Include="Entities\" />
       <Folder Include="Repositories\" />
       <Folder Include="DI\" />
+      <Folder Include="Interfaces\" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
