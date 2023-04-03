@@ -20,4 +20,3 @@ namespace DAL.DI
 		}
 	}
 }
-
