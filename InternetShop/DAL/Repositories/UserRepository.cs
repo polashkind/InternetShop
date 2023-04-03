@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Threading;
 using DAL.Context;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -17,11 +17,39 @@ namespace DAL.Repositories
 			_dbSet = _context.Set<UserEntity>();
 		}
 
-		public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
 		{
-			var result = await _dbSet.ToListAsync(cancellationToken);
+			var result = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
 			return result;
 		}
+
+		public async Task<UserEntity?> GetById(int id, CancellationToken cancellationToken)
+		{
+			var result = await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+			return result;
+		}
+
+        public async Task<UserEntity?> Create(UserEntity userEntity, CancellationToken cancellationToken)
+		{
+            _dbSet.Add(userEntity);
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return userEntity;
+        }
+
+        public async Task Delete(UserEntity userEntity, CancellationToken cancellationToken)
+        {
+            _dbSet.Remove(userEntity);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<UserEntity?> Update(UserEntity userEntity, CancellationToken cancellationToken)
+        {
+            _context.Entry(userEntity).State = EntityState.Modified;
+			_dbSet.Update(userEntity);
+            await _context.SaveChangesAsync(cancellationToken);
+            return userEntity;
+        }
     }
 }
 
