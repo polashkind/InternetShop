@@ -23,34 +23,32 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<UserEntity?> GetById([FromQuery] int id, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
+            var user = await _userRepository.GetById(id, cancellationToken);
+            return user;
         }
 
         [HttpPost]
-        public async Task<IActionResult?> PostUser(UserEntity userEntity)
+        public async Task<UserEntity?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
-            return Ok(await _userRepository.PostUser(userEntity));
+            return await _userRepository.Create(userEntity, cancellationToken);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async ValueTask Delete([FromQuery]int id, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Delete(id);
-            return Ok(user);
+            var userEntity = await _userRepository.GetById(id, cancellationToken);
+            
+            await _userRepository.Delete(userEntity, cancellationToken);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult?> UpdateEmployee(int id, UserEntity userEntity)
+        [HttpPut]
+        public async Task<UserEntity?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
-            await _userRepository.GetById(id);
-            return Ok(await _userRepository.Update(userEntity));
+            //var result = await _userRepository.GetById(userEntity.Id, cancellationToken);
+
+            return await _userRepository.Update(userEntity, cancellationToken);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DAL.Context;
+﻿using System.Threading;
+using DAL.Context;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -16,62 +17,38 @@ namespace DAL.Repositories
 			_dbSet = _context.Set<UserEntity>();
 		}
 
-        public void Create(UserEntity entity)
-        {
-            _context.Add(entity);
-            _context.SaveChanges();
-        }
-
         public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
 		{
-			var result = await _dbSet.ToListAsync(cancellationToken);
+			var result = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
 			return result;
 		}
 
-		public async Task<UserEntity?> GetById(int id)
+		public async Task<UserEntity?> GetById(int id, CancellationToken cancellationToken)
 		{
-			var result = await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id);
+			var result = await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
 			return result;
 		}
 
-        private int NextId => _dbSet.Count() == 0 ? 1 : _dbSet.Max(x => x.Id) + 1;
-
-        public async Task<UserEntity?> PostUser(UserEntity userEntity)
+        public async Task<UserEntity?> Create(UserEntity userEntity, CancellationToken cancellationToken)
 		{
-            userEntity.Id = NextId;
             _dbSet.Add(userEntity);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return userEntity;
         }
 
-        public async Task<UserEntity?> Delete(int id)
+        public async Task Delete(UserEntity userEntity, CancellationToken cancellationToken)
         {
-            var result = await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id);
-			if(result != null)
-			{
-                _context.Remove(result);
-                await _context.SaveChangesAsync();
-                return result;
-            }
-
-            return null;
+            _dbSet.Remove(userEntity);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<UserEntity?> Update(UserEntity userEntity)
+        public async Task<UserEntity?> Update(UserEntity userEntity, CancellationToken cancellationToken)
         {
-            var result = await _dbSet.FirstOrDefaultAsync(entity => entity.Id == userEntity.Id);
-            if (result != null)
-            {
-                result.FirstName = userEntity.FirstName;
-                result.LastName = userEntity.LastName;
-                result.Address = userEntity.Address;
-
-                await _context.SaveChangesAsync();
-                return result;
-            }
-
-            return null;
+            _context.Entry(userEntity).State = EntityState.Modified;
+			_dbSet.Update(userEntity);
+            await _context.SaveChangesAsync(cancellationToken);
+            return userEntity;
         }
     }
 }
