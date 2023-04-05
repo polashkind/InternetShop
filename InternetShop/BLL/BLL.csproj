@@ -6,4 +6,19 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="DI\" />
+      <None Remove="Interfaces\" />
+      <None Remove="Models\" />
+      <None Remove="Services\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="DI\" />
+      <Folder Include="Interfaces\" />
+      <Folder Include="Models\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\DAL\DAL.csproj" />
+    </ItemGroup>
 </Project>

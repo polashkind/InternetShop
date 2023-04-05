@@ -1,4 +1,5 @@
 using DAL.DI;
+using BLL.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataAccess(builder.Configuration);
+builder.Services.AddBusinessLogic();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
