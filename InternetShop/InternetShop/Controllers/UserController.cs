@@ -1,10 +1,7 @@
-﻿using DAL.Entities;
-using Microsoft.AspNetCore.Mvc;
-using DAL.Interfaces;
-using BLL.Services;
-using DAL.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
 using BLL.Models;
+using DAL.Entities;
 
 namespace InternetShop.Controllers
 {
@@ -12,13 +9,6 @@ namespace InternetShop.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        //private readonly IUserRepository _userRepository;
-
-        //public UserController(IUserRepository userRepository)
-        //{
-        //    _userRepository = userRepository;
-        //}
-
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
@@ -27,39 +17,34 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken)
         {
-            //var result = await _userRepository.GetAll(cancellationToken);
             var result = await _userService.GetAll(cancellationToken);
             return result;
         }
 
         [HttpGet("{id}")]
-        public async Task<UserEntity?> GetById([FromQuery] int id, CancellationToken cancellationToken)
+        public async Task<UserModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetById(id, cancellationToken);
             return user;
         }
 
         [HttpPost]
-        public async Task<UserEntity?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
             return await _userService.Create(userEntity, cancellationToken);
         }
 
         [HttpDelete("{id}")]
-        public async ValueTask Delete([FromQuery] int id, CancellationToken cancellationToken)
+        public async ValueTask Delete([FromRoute] int id, CancellationToken cancellationToken)
         {
-            var userEntity = await _userService.GetById(id, cancellationToken);
-
-            await _userService.Delete(userEntity, cancellationToken);
+            await _userService.Delete(id, cancellationToken);
         }
 
         [HttpPut]
-        public async Task<UserEntity?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
-            //var result = await _userRepository.GetById(userEntity.Id, cancellationToken);
-
             return await _userService.Update(userEntity, cancellationToken);
         }
     }
