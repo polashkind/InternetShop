@@ -1,4 +1,5 @@
 ﻿using BLL.Interfaces;
+using BLL.Models;
 using DAL.Entities;
 using DAL.Interfaces;
 
@@ -13,29 +14,50 @@ namespace BLL.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
+        private UserModel ConvertToUserModel(UserEntity userEntity)
         {
-            return await _userRepository.GetAll(cancellationToken);
+            var userModel = new UserModel
+            {
+                Id = userEntity.Id,
+                FirstName = userEntity.FirstName,
+                LastName = userEntity.LastName,
+                Address = userEntity.Address
+            };
+
+            return userModel;
         }
 
-        public async Task<UserEntity?> GetById(int id, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken)
         {
-            return await _userRepository.GetById(id, cancellationToken);
+            IEnumerable<UserEntity> userEntities = await _userRepository.GetAll(cancellationToken);
+            List<UserModel> userModels = new List<UserModel>();
+            foreach (var user in userEntities)
+            {
+                userModels.Add(ConvertToUserModel(user));
+            }
+            return userModels;
         }
 
-        public async Task<UserEntity?> Create(UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> GetById(int id, CancellationToken cancellationToken)
         {
-            return await _userRepository.Create(userEntity, cancellationToken);
+            return ConvertToUserModel(await _userRepository.GetById(id, cancellationToken));
         }
 
-        public async Task Delete(UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> Create(UserEntity userEntity, CancellationToken cancellationToken)
         {
-            await _userRepository.Delete(userEntity, cancellationToken);
+            return ConvertToUserModel(await _userRepository.Create(userEntity, cancellationToken));
         }
 
-        public async Task<UserEntity?> Update(UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            return await _userRepository.Update(userEntity, cancellationToken);
+            UserEntity? user = await _userRepository.GetById(id, cancellationToken);
+
+            await _userRepository.Delete(user, cancellationToken);
+        }
+
+        public async Task<UserModel?> Update(UserEntity userEntity, CancellationToken cancellationToken)
+        {
+            return ConvertToUserModel(await _userRepository.Update(userEntity, cancellationToken));
         }
     }
 }
