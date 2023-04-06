@@ -33,9 +33,6 @@ namespace InternetShop.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken cancellationToken)
         {
-            //var result = await _userService.GetAll(cancellationToken);
-            //return result;
-
             IEnumerable<UserModel> result = await _userService.GetAll(cancellationToken);
             List<UserViewModel> userViewModels = new List<UserViewModel>();
             foreach (var user in result)
