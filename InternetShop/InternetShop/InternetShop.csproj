@@ -21,9 +21,13 @@
 
   <ItemGroup>
     <None Remove="Controllers\" />
+    <None Remove="ViewModels\" />
+    <None Remove="ViewModels\UserViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\UserViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
