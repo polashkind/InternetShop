@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using BLL.Models;
 using DAL.Entities;
+using InternetShop.ViewModels.UserViewModels;
 
 namespace InternetShop.Controllers
 {
@@ -16,24 +17,42 @@ namespace InternetShop.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken)
+        private UserViewModel ConvertToUserViewModel(UserModel userModel)
         {
-            var result = await _userService.GetAll(cancellationToken);
-            return result;
+            var userViewModel = new UserViewModel
+            {
+                Id = userModel.Id,
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                Address = userModel.Address
+            };
+
+            return userViewModel;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken cancellationToken)
+        {
+            IEnumerable<UserModel> result = await _userService.GetAll(cancellationToken);
+            List<UserViewModel> userViewModels = new List<UserViewModel>();
+            foreach (var user in result)
+            {
+                userViewModels.Add(ConvertToUserViewModel(user));
+            }
+            return userViewModels;
         }
 
         [HttpGet("{id}")]
-        public async Task<UserModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetById(id, cancellationToken);
-            return user;
+            return ConvertToUserViewModel(user);
         }
 
         [HttpPost]
-        public async Task<UserModel?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
-            return await _userService.Create(userEntity, cancellationToken);
+            return ConvertToUserViewModel(await _userService.Create(userEntity, cancellationToken));
         }
 
         [HttpDelete("{id}")]
@@ -43,9 +62,9 @@ namespace InternetShop.Controllers
         }
 
         [HttpPut]
-        public async Task<UserModel?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
         {
-            return await _userService.Update(userEntity, cancellationToken);
+            return ConvertToUserViewModel(await _userService.Update(userEntity, cancellationToken));
         }
     }
 }
