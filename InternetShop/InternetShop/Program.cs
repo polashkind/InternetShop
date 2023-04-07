@@ -1,7 +1,5 @@
-using DAL.DI;
 using BLL.DI;
-//using InternetShop;
-using BLL.Mapper;
+using DAL.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

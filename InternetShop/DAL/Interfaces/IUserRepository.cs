@@ -1,13 +1,13 @@
-﻿using DAL.Entities;
+﻿using DAL.Models;
 
 namespace DAL.Interfaces
 {
 	public interface IUserRepository
 	{
-        Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken);
-        Task<UserEntity?> GetById(int Id, CancellationToken cancellationToken);
-        Task<UserEntity?> Create(UserEntity entity, CancellationToken cancellationToken);
-        Task Delete(UserEntity userEntity, CancellationToken cancellationToken);
-        Task<UserEntity?> Update(UserEntity userEntity, CancellationToken cancellationToken);
+        Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken);
+        Task<UserModel?> GetById(int Id, CancellationToken cancellationToken);
+        Task<UserModel?> Create(UserModel userModel, CancellationToken cancellationToken);
+        Task Delete(UserModel userModel, CancellationToken cancellationToken);
+        Task<UserModel?> Update(UserModel userModel, CancellationToken cancellationToken);
     }
 }

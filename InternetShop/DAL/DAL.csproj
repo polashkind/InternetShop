@@ -12,6 +12,8 @@
       <None Remove="Repositories\" />
       <None Remove="DI\" />
       <None Remove="Interfaces\" />
+      <None Remove="Mapper\" />
+      <None Remove="Models\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Context\" />
@@ -19,6 +21,8 @@
       <Folder Include="Repositories\" />
       <Folder Include="DI\" />
       <Folder Include="Interfaces\" />
+      <Folder Include="Mapper\" />
+      <Folder Include="Models\" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />

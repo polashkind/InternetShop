@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.Models;
+using DAL.Models;
 using InternetShop.ViewModels.UserViewModels;
 
 namespace InternetShop.Mapper
@@ -8,7 +8,7 @@ namespace InternetShop.Mapper
     {
         public AppMappingProfile()
         {
-            CreateMap<UserModel, UserViewModel>();
+            CreateMap<UserViewModel, UserModel>();
         }
     }
 }

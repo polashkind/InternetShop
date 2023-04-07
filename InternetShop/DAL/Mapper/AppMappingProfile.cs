@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using BLL.Models;
+using DAL.Models;
 using DAL.Entities;
 
-namespace BLL.Mapper
+namespace DAL.Mapper
 {
 	public class AppMappingProfile : Profile
 	{
 		public AppMappingProfile()
 		{
-			CreateMap<UserEntity, UserModel>();
+			CreateMap<UserModel, UserEntity>().ReverseMap();
 		}
 	}
 }

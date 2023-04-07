@@ -1,5 +1,4 @@
-﻿using System;
-using DAL.Context;
+﻿using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,7 @@ namespace DAL.DI
 		public static void AddDataAccess(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddDbContext<DatabaseContext>(context =>
+            services.AddDbContext<DatabaseContext>(context =>
 			{
 				context.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 			});

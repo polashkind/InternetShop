@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
-using BLL.Models;
-using DAL.Entities;
+using DAL.Models;
 using InternetShop.ViewModels.UserViewModels;
 using AutoMapper;
 
@@ -21,29 +20,22 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken)
         {
-            IEnumerable<UserModel> result = await _userService.GetAll(cancellationToken);
-            List<UserViewModel> userViewModels = new List<UserViewModel>();
-            foreach (var user in result)
-            {
-                var userViewModel = _mapper.Map<UserViewModel>(user);
-                userViewModels.Add(userViewModel);
-            }
-            return userViewModels;
+            var users = _mapper.Map<List<UserModel>>(await _userService.GetAll(cancellationToken));
+            return users;
         }
 
         [HttpGet("{id}")]
-        public async Task<UserViewModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
+        public async Task<UserModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
-            var user = _mapper.Map<UserViewModel>(await _userService.GetById(id, cancellationToken));
-            return user;
+            return await _userService.GetById(id, cancellationToken);
         }
 
         [HttpPost]
-        public async Task<UserViewModel?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> PostUser([FromBody] UserViewModel userViewModel, CancellationToken cancellationToken)
         {
-            return _mapper.Map<UserViewModel>(await _userService.Create(userEntity, cancellationToken));
+            return await _userService.Create(_mapper.Map<UserModel>(userViewModel), cancellationToken);
         }
 
         [HttpDelete("{id}")]
@@ -53,9 +45,9 @@ namespace InternetShop.Controllers
         }
 
         [HttpPut]
-        public async Task<UserViewModel?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> Update([FromBody] UserViewModel userViewModel, CancellationToken cancellationToken)
         {
-            return _mapper.Map<UserViewModel>(await _userService.Update(userEntity, cancellationToken));
+            return await _userService.Update(_mapper.Map<UserModel>(userViewModel), cancellationToken);
         }
     }
 }
