@@ -1,5 +1,7 @@
 using DAL.DI;
 using BLL.DI;
+//using InternetShop;
+using BLL.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddBusinessLogic(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(AppMappingProfile), typeof(InternetShop.Mapper.AppMappingProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
