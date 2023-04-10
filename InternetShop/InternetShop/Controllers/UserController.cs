@@ -27,7 +27,7 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<UserViewModel?> GetById([FromQuery] int id, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> GetById(int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetById(id, cancellationToken);
             var mappedUser = _mapper.Map<UserModel>(user);
