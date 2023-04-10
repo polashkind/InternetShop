@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BLL.Models
+﻿namespace BLL.Models
 {
 	public class UserModel
 	{

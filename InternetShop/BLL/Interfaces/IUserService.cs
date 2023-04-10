@@ -1,5 +1,4 @@
 ﻿using BLL.Models;
-using DAL.Entities;
 
 namespace BLL.Interfaces
 {
@@ -7,9 +6,9 @@ namespace BLL.Interfaces
 	{
         Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken);
         Task<UserModel?> GetById(int Id, CancellationToken cancellationToken);
-        Task<UserModel?> Create(UserEntity userEntity, CancellationToken cancellationToken);
+        Task<UserModel?> Create(UserModel userModel, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
-        Task<UserModel?> Update(UserEntity userEntity, CancellationToken cancellationToken);
+        Task<UserModel?> Update(UserModel userModel, CancellationToken cancellationToken);
     }
 }
 

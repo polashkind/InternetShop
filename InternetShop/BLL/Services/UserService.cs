@@ -1,63 +1,53 @@
 ﻿using BLL.Interfaces;
-using BLL.Models;
-using DAL.Entities;
 using DAL.Interfaces;
+using AutoMapper;
+using DAL.Entities;
+using BLL.Models;
 
 namespace BLL.Services
 {
     public class UserService : IUserService
     {
         protected readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-        }
-
-        private UserModel ConvertToUserModel(UserEntity userEntity)
-        {
-            var userModel = new UserModel
-            {
-                Id = userEntity.Id,
-                FirstName = userEntity.FirstName,
-                LastName = userEntity.LastName,
-                Address = userEntity.Address
-            };
-
-            return userModel;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken)
         {
-            IEnumerable<UserEntity> userEntities = await _userRepository.GetAll(cancellationToken);
-            List<UserModel> userModels = new List<UserModel>();
-            foreach (var user in userEntities)
-            {
-                userModels.Add(ConvertToUserModel(user));
-            }
-            return userModels;
+            var users = _mapper.Map<IEnumerable<UserModel>>(await _userRepository.GetAll(cancellationToken));
+            return users;
         }
 
         public async Task<UserModel?> GetById(int id, CancellationToken cancellationToken)
         {
-            return ConvertToUserModel(await _userRepository.GetById(id, cancellationToken));
+            var user = await _userRepository.GetById(id, cancellationToken);
+            var mappedUser = _mapper.Map<UserModel>(user);
+            return mappedUser;
         }
 
-        public async Task<UserModel?> Create(UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> Create(UserModel userModel, CancellationToken cancellationToken)
         {
-            return ConvertToUserModel(await _userRepository.Create(userEntity, cancellationToken));
+            var mappedUser = _mapper.Map<UserEntity>(userModel);
+            var result = await _userRepository.Create(mappedUser, cancellationToken);
+            return _mapper.Map<UserModel>(result);
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            UserEntity? user = await _userRepository.GetById(id, cancellationToken);
-
+            var user = await _userRepository.GetById(id, cancellationToken);
             await _userRepository.Delete(user, cancellationToken);
         }
 
-        public async Task<UserModel?> Update(UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserModel?> Update(UserModel userModel, CancellationToken cancellationToken)
         {
-            return ConvertToUserModel(await _userRepository.Update(userEntity, cancellationToken));
+            var mappedUser = _mapper.Map<UserEntity>(userModel);
+            var user = await _userRepository.Update(mappedUser, cancellationToken);
+            return _mapper.Map<UserModel>(user);
         }
     }
 }

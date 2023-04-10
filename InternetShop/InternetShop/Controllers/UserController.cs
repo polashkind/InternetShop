@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
 using BLL.Models;
-using DAL.Entities;
 using InternetShop.ViewModels.UserViewModels;
+using AutoMapper;
 
 namespace InternetShop.Controllers
 {
@@ -11,60 +11,50 @@ namespace InternetShop.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
-        }
-
-        private UserViewModel ConvertToUserViewModel(UserModel userModel)
-        {
-            var userViewModel = new UserViewModel
-            {
-                Id = userModel.Id,
-                FirstName = userModel.FirstName,
-                LastName = userModel.LastName,
-                Address = userModel.Address
-            };
-
-            return userViewModel;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken cancellationToken)
         {
-            IEnumerable<UserModel> result = await _userService.GetAll(cancellationToken);
-            List<UserViewModel> userViewModels = new List<UserViewModel>();
-            foreach (var user in result)
-            {
-                userViewModels.Add(ConvertToUserViewModel(user));
-            }
-            return userViewModels;
+            var users = _mapper.Map<IEnumerable<UserViewModel>>(await _userService.GetAll(cancellationToken));
+            return users;
         }
 
         [HttpGet("{id}")]
-        public async Task<UserViewModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> GetById(int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetById(id, cancellationToken);
-            return ConvertToUserViewModel(user);
+            var mappedUser = _mapper.Map<UserModel>(user);
+            return _mapper.Map<UserViewModel>(mappedUser);
         }
 
         [HttpPost]
-        public async Task<UserViewModel?> PostUser([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> PostUser([FromBody] ChangeUserViewModel changeUserViewModel, CancellationToken cancellationToken)
         {
-            return ConvertToUserViewModel(await _userService.Create(userEntity, cancellationToken));
+            var mappedUser = _mapper.Map<UserModel>(changeUserViewModel);
+            var result = await _userService.Create(mappedUser, cancellationToken);
+            return _mapper.Map<UserViewModel>(result);
         }
 
         [HttpDelete("{id}")]
-        public async ValueTask Delete([FromRoute] int id, CancellationToken cancellationToken)
+        public async ValueTask Delete([FromQuery] int id, CancellationToken cancellationToken)
         {
             await _userService.Delete(id, cancellationToken);
         }
 
-        [HttpPut]
-        public async Task<UserViewModel?> Update([FromBody] UserEntity userEntity, CancellationToken cancellationToken)
+        [HttpPut("{id}")]
+        public async Task<UserViewModel?> Update([FromBody] ChangeUserViewModel changeUserViewModel, [FromQuery] int id, CancellationToken cancellationToken)
         {
-            return ConvertToUserViewModel(await _userService.Update(userEntity, cancellationToken));
+            var mappedUser = _mapper.Map<UserModel>(changeUserViewModel);
+            mappedUser.Id = id;
+            var result = await _userService.Update(mappedUser, cancellationToken);
+            return _mapper.Map<UserViewModel>(result);
         }
     }
 }
