@@ -43,7 +43,7 @@ namespace InternetShop.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async ValueTask Delete([FromQuery] int id, CancellationToken cancellationToken)
+        public async ValueTask Delete(int id, CancellationToken cancellationToken)
         {
             await _userService.Delete(id, cancellationToken);
         }
