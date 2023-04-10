@@ -11,8 +11,9 @@ namespace DAL.Context
 		}
 
 		public DbSet<UserEntity> Users { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
