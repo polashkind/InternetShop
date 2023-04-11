@@ -9,6 +9,7 @@ namespace BLL.Mapper
 		public MappingProfile()
 		{
 			CreateMap<UserModel, UserEntity>().ReverseMap();
-		}
+            CreateMap<ProductModel, ProductEntity>().ReverseMap();
+        }
 	}
 }
