@@ -31,7 +31,7 @@ namespace DAL.Repositories
 
         public async Task<ProductEntity?> Create(ProductEntity productEntity, CancellationToken cancellationToken)
         {
-            _dbSet.AddAsync(productEntity);
+            await _dbSet.AddAsync(productEntity);
             await _context.SaveChangesAsync(cancellationToken);
             return productEntity;
         }
