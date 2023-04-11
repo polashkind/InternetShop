@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace InternetShop.ViewModels.UserViewModels
+﻿namespace InternetShop.ViewModels.UserViewModels
 {
 	public class ChangeUserViewModel
 	{
