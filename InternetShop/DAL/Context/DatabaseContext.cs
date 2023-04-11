@@ -11,7 +11,7 @@ namespace DAL.Context
 		}
 
 		public DbSet<UserEntity> Users { get; set; }
-        public DbSet<ProductEntity> Products { get; set; }
+		public DbSet<ProductEntity> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
