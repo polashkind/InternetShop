@@ -26,12 +26,14 @@
     <None Remove="ViewModels\" />
     <None Remove="ViewModels\UserViewModels\" />
     <None Remove="Mapper\" />
+    <None Remove="ViewModels\ProductViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="ViewModels\" />
     <Folder Include="ViewModels\UserViewModels\" />
     <Folder Include="Mapper\" />
+    <Folder Include="ViewModels\ProductViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

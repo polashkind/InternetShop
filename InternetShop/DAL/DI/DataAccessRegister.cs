@@ -12,6 +12,7 @@ namespace DAL.DI
 		public static void AddDataAccess(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<DatabaseContext>(context =>
 			{
 				context.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
