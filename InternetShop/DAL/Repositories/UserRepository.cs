@@ -15,7 +15,6 @@ namespace DAL.Repositories
 		{
 			_context = context;
 			_dbSet = _context.Set<UserEntity>();
-            
         }
 
         public async Task<IEnumerable<UserEntity>> GetAll(CancellationToken cancellationToken)
