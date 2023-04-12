@@ -36,6 +36,13 @@ namespace InternetShop.Controllers
             return _mapper.Map<ProductViewModel>(mappedProduct);
         }
 
+        [HttpPost]
+        public async Task<ProductViewModel?> Post([FromBody] ChangeProductViewModel changeProductViewModel, CancellationToken cancellationToken)
+        {
+            var mappedProduct = _mapper.Map<ProductModel>(changeProductViewModel);
+            var result = await _productService.Create(mappedProduct, cancellationToken);
+            return _mapper.Map<ProductViewModel>(result);
+        }
 
         [HttpDelete("{id}")]
         public async ValueTask Delete([FromQuery] int id, CancellationToken cancellationToken)
