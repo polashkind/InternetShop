@@ -1,4 +1,5 @@
-﻿using DAL.Context;
+﻿using System.Linq;
+using DAL.Context;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +26,14 @@ namespace DAL.Repositories
 
         public async Task<ProductEntity?> GetById(int id, CancellationToken cancellationToken)
         {
-            var productModel = await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-            return productModel;
+            var productEntity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+            return productEntity;
+        }
+
+        public async Task<IEnumerable<ProductEntity>> GetByPrice(decimal price, CancellationToken cancellationToken)
+        {
+            var productPrice = await _dbSet.AsNoTracking().Where(entity => entity.Price >= price).ToListAsync();
+            return productPrice;
         }
 
         public async Task<ProductEntity?> Create(ProductEntity productEntity, CancellationToken cancellationToken)
@@ -49,6 +56,8 @@ namespace DAL.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return productEntity;
         }
+
+
     }
 }
 
