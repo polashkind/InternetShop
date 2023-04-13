@@ -29,11 +29,19 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ProductViewModel?> GetById(int id, CancellationToken cancellationToken)
+        public async Task<ProductViewModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
             var product = await _productService.GetById(id, cancellationToken);
             var mappedProduct = _mapper.Map<ProductModel>(product);
             return _mapper.Map<ProductViewModel>(mappedProduct);
+        }
+
+        [HttpGet("search")]
+        public async Task<IEnumerable<ProductViewModel>> GetByPrice([FromQuery] decimal price, CancellationToken cancellationToken)
+        {
+            var product = await _productService.GetByPrice(price, cancellationToken);
+            var mappedProduct = _mapper.Map<IEnumerable<ProductViewModel>>(product);
+            return _mapper.Map<IEnumerable<ProductViewModel>>(mappedProduct);
         }
 
         [HttpPost]
@@ -44,13 +52,13 @@ namespace InternetShop.Controllers
             return _mapper.Map<ProductViewModel>(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async ValueTask Delete([FromQuery] int id, CancellationToken cancellationToken)
         {
             await _productService.Delete(id, cancellationToken);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ProductViewModel?> Update([FromBody] ChangeProductViewModel changeProductViewModel, [FromQuery] int id, CancellationToken cancellationToken)
         {
             var mappedProduct = _mapper.Map<ProductModel>(changeProductViewModel);
