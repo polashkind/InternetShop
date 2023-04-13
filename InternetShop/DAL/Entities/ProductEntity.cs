@@ -7,7 +7,8 @@ namespace DAL.Entities
         public int Id { get; set; }
         [MaxLength(20)]
         public string Name { get; set; } = null!;
-        public int Quantity { get; set; } = 0!;
+        [Required]
+        public int Quantity { get; set; }
         [Required]
         public decimal Price { get; set; }
     }
