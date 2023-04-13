@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using BLL.Interfaces;
 using BLL.Models;
 using DAL.Entities;
@@ -28,6 +29,13 @@ namespace BLL.Services
         {
             var product = await _productRepository.GetById(id, cancellationToken);
             var mappedProduct = _mapper.Map<ProductModel>(product);
+            return mappedProduct;
+        }
+
+        public async Task<IEnumerable<ProductModel>> GetByPrice(decimal price, CancellationToken cancellationToken)
+        {
+            var product = await _productRepository.GetByPrice(price, cancellationToken);
+            var mappedProduct = _mapper.Map<IEnumerable<ProductModel>>(product);
             return mappedProduct;
         }
 
