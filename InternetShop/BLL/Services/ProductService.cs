@@ -21,8 +21,19 @@ namespace BLL.Services
 
         public async Task<IEnumerable<ProductModel>> GetAll(CancellationToken cancellationToken)
         {
-            var users = _mapper.Map<IEnumerable<ProductModel>>(await _productRepository.GetAll(cancellationToken));
-            return users;
+            var products = _mapper.Map<IEnumerable<ProductModel>>(await _productRepository.GetAll(cancellationToken));
+            var productsWithDiscount = PriceWithDiscount(products);
+            return productsWithDiscount;
+        }
+
+        private IEnumerable<ProductModel> PriceWithDiscount(IEnumerable<ProductModel> products)
+        {
+            foreach (var product in products)
+            {
+                product.PriceWithDiscount = product.Price - (product.Price * product.Discount) / 100;
+            }
+
+            return products;
         }
 
         public async Task<ProductModel?> GetById(int id, CancellationToken cancellationToken)
