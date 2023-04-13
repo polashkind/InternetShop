@@ -32,7 +32,7 @@ namespace DAL.Repositories
 
         public async Task<IEnumerable<ProductEntity>> GetByPrice(decimal price, CancellationToken cancellationToken)
         {
-            var productPrice = await _dbSet.AsNoTracking().Where(entity => entity.Price >= price).ToListAsync();
+            var productPrice = await _dbSet.AsNoTracking().Where(entity => entity.Price >= price).ToListAsync(cancellationToken);
             return productPrice;
         }
 
