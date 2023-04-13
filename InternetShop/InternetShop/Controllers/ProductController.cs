@@ -29,15 +29,15 @@ namespace InternetShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ProductViewModel?> GetById([FromRoute] int id, CancellationToken cancellationToken)
+        public async Task<ProductViewModel?> GetById(int id, CancellationToken cancellationToken)
         {
             var product = await _productService.GetById(id, cancellationToken);
             var mappedProduct = _mapper.Map<ProductModel>(product);
             return _mapper.Map<ProductViewModel>(mappedProduct);
         }
 
-        [HttpGet("search")]
-        public async Task<IEnumerable<ProductViewModel>> GetByPrice([FromQuery] decimal price, CancellationToken cancellationToken)
+        [HttpGet("byPrice/{price}")]
+        public async Task<IEnumerable<ProductViewModel>> GetByPrice(decimal price, CancellationToken cancellationToken)
         {
             var product = await _productService.GetByPrice(price, cancellationToken);
             var mappedProduct = _mapper.Map<IEnumerable<ProductViewModel>>(product);
