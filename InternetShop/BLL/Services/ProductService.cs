@@ -10,7 +10,6 @@ namespace BLL.Services
 {
     public class ProductService : GenericService<ProductModel, ProductEntity>, IProductService
     {
-        // protected readonly IGenericRepository<ProductEntity> _genericRepository;
         protected readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
