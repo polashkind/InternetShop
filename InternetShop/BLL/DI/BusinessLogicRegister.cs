@@ -3,6 +3,8 @@ using BLL.Services;
 using BLL.Interfaces;
 using DAL.DI;
 using Microsoft.Extensions.Configuration;
+using BLL.Models;
+using DAL.Entities;
 
 namespace BLL.DI
 {
