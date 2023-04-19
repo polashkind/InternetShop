@@ -14,8 +14,8 @@ namespace DAL.DI
 		{
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IProductRepository, ProductRepository>();
-            //services.AddScoped(typeof(IGenericRepository<UserEntity>), typeof(GenericRepository<UserEntity>));
-            services.AddDbContext<DatabaseContext>(context =>
+			// services.AddScoped(typeof(IGenericRepository<UserEntity>), typeof(GenericRepository<UserEntity>));
+			services.AddDbContext<DatabaseContext>(context =>
 			{
 				context.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 			});
