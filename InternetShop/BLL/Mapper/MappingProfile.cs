@@ -10,6 +10,7 @@ namespace BLL.Mapper
 		{
 			CreateMap<UserModel, UserEntity>().ReverseMap();
             CreateMap<ProductModel, ProductEntity>().ReverseMap();
+            CreateMap<BasketModel, BasketEntity>().ReverseMap();
         }
 	}
 }
