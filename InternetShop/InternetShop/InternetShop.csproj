@@ -27,6 +27,7 @@
     <None Remove="ViewModels\UserViewModels\" />
     <None Remove="Mapper\" />
     <None Remove="ViewModels\ProductViewModels\" />
+    <None Remove="ViewModels\BasketViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -34,6 +35,7 @@
     <Folder Include="ViewModels\UserViewModels\" />
     <Folder Include="Mapper\" />
     <Folder Include="ViewModels\ProductViewModels\" />
+    <Folder Include="ViewModels\BasketViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

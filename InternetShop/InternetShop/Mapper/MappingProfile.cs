@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.Models;
+using InternetShop.ViewModels.BasketViewModels;
 using InternetShop.ViewModels.ProductViewModels;
 using InternetShop.ViewModels.UserViewModels;
 
@@ -14,6 +15,9 @@ namespace InternetShop.Mapper
 
             CreateMap<ProductViewModel, ProductModel>().ReverseMap();
             CreateMap<ChangeProductViewModel, ProductModel>().ReverseMap();
+
+            CreateMap<BasketViewModel, BasketModel>().ReverseMap();
+            CreateMap<ChangeBasketViewModel, BasketModel>().ReverseMap();
         }
     }
 }
