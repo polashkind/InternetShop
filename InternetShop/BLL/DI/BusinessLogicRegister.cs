@@ -3,8 +3,6 @@ using BLL.Services;
 using BLL.Interfaces;
 using DAL.DI;
 using Microsoft.Extensions.Configuration;
-using BLL.Models;
-using DAL.Entities;
 
 namespace BLL.DI
 {
@@ -14,6 +12,7 @@ namespace BLL.DI
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IBasketService, BasketService>();
             services.AddDataAccess(configuration);
         }
     }
