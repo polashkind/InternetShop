@@ -12,6 +12,8 @@ namespace DAL.Entities
         [Required]
         public decimal Price { get; set; }
         public int Discount { get; set; }
+
+        public virtual ICollection<BasketItemEntity> BasketItems { get; set; }
     }
 }
 

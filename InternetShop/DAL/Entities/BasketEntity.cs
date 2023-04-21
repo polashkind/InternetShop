@@ -6,11 +6,11 @@ namespace DAL.Entities
 	{
         public int Id { get; set; }
         [Required]
-        public int Count { get; set; }
-        [Required]
-        public decimal Price { get; set; }
+        public int ItemCount { get; set; }
         [Required]
         public decimal TotalBasketPrice { get; set; }
+
+        public virtual ICollection<BasketItemEntity> BasketItems { get; set; }
     }
 }
 
